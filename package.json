@@ -9,15 +9,15 @@
   "main": "./dist/esm/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
-  "engines": {
-    "node": ">=18.x"
-  },
   "exports": {
     ".": {
       "types": "./dist/esm/index.d.ts",
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     }
+  },
+  "engines": {
+    "node": ">=18.x"
   },
   "type": "module",
   "license": "MIT",
@@ -65,7 +65,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0-alpha.49"
   },
-  "dependencies": {
+  "peerDependencies": {
     "coraline": "github:Pnlvfx/coraline"
   }
 }
