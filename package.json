@@ -12,8 +12,7 @@
   "exports": {
     ".": {
       "types": "./dist/esm/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": "./dist/esm/index.js"
     }
   },
   "engines": {
@@ -33,12 +32,10 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "generate:package.json": "tsx ./tools/generate-commonjs-package-json.ts dist/cjs/package.json",
     "dev": "tsc -w & node --watch ./dist/esm/cli.js",
     "start": "node .",
     "lint": "eslint .",
-    "build": "rimraf dist && eslint . && tsc && npm run build:cjs && npm run generate:package.json",
-    "build:cjs": "tsc --module CommonJS --moduleResolution Node --outDir dist/cjs",
+    "build": "rimraf dist && eslint . && tsc",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test && npm run lint",
     "pretest": "npm run lint && tsc --noEmit",
@@ -62,7 +59,6 @@
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.3",
-    "tsx": "^4.16.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0-alpha.49"
   },

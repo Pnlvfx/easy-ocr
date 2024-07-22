@@ -25,7 +25,7 @@ export interface TextDetection {
   confidence: number;
 }
 
-const script = path.join(process.cwd(), 'python/easy-ocr.py');
+const script = path.join(import.meta.dirname, 'python/easy-ocr.py');
 
 const easyOcr = {
   reader: (_lang: string, options: OcrOptions) => {
