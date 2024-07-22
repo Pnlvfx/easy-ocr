@@ -8,7 +8,7 @@ output = sys.argv[2]
 scale_factor = 4
 upscaled = cv2.resize(img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
 blur = cv2.blur(upscaled, (2, 2))
-blur = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
+bw = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
 
 if img is None:
     raise ValueError("Error loading the image. Please check the file path.")
@@ -24,7 +24,7 @@ def convert_detection(detection):
     }
 
 reader = easyocr.Reader('', gpu=True)
-text_detections = reader.readtext(blur, text_threshold=0.3, allowlist='HJBUCOSBBB0123456789.')
+text_detections = reader.readtext(bw, text_threshold=0.3, allowlist='UTGHJBUCOSBBB0123456789.')
 
 serializable_detections = [convert_detection(d) for d in text_detections]
 

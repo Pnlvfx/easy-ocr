@@ -5,8 +5,7 @@ const run = async () => {
   await coraline.input.create();
 
   const reader = easyOcr.reader('', { pythonPath: '/home/simone/web/gto-poker/.venv/bin/python3' });
-  // eslint-disable-next-line unicorn/prefer-blob-reading-methods
-  const textDetections = await reader.readAsText('media/temp.png');
+  const textDetections = await reader.readText('media/temp.png');
   // eslint-disable-next-line no-console
   console.log(textDetections);
 };
