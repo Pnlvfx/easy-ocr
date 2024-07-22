@@ -18,7 +18,7 @@ interface BoundingBox {
   3: Point;
 }
 
-interface TextDetection {
+export interface TextDetection {
   bounding_box: BoundingBox;
   text: string;
   confidence: number;
