@@ -1,6 +1,7 @@
 import coraline, { temporaryFile } from 'coraline';
 import { spawn } from 'node:child_process';
 import { promises as fs } from 'node:fs';
+import path from 'node:path';
 
 interface OcrOptions {
   pythonPath: string;
@@ -24,13 +25,15 @@ export interface TextDetection {
   confidence: number;
 }
 
+const script = path.join(process.cwd(), 'python/easy-ocr.py');
+
 const easyOcr = {
   reader: (_lang: string, options: OcrOptions) => {
     return {
       readAsText: (image: string) => {
         return new Promise<TextDetection[]>((resolve, reject) => {
           const output = temporaryFile({ extension: 'json' });
-          const ocr = spawn(`${options.pythonPath} python/easy-ocr.py ${image} ${output}`);
+          const ocr = spawn(options.pythonPath, [script, image, output]);
 
           ocr.on('error', reject);
 
