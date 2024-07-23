@@ -1,9 +1,9 @@
-interface Point {
+export interface Point {
   0: number;
   1: number;
 }
 
-interface BoundingBox {
+export interface BoundingBox {
   0: Point;
   1: Point;
   2: Point;

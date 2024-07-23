@@ -65,3 +65,5 @@ const easyOcr = {
 };
 
 export default easyOcr;
+
+export type { BoundingBox, Point, TextDetection } from './types.js';
