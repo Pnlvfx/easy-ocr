@@ -1,19 +1,14 @@
-import cv2
 import easyocr
 import json
 import sys
 
-img = cv2.imread(sys.argv[1])
+img = sys.argv[1]
 if img is None:
     raise ValueError("Error loading the image. Please check the file path.")
 lang_list = sys.argv[2]
 output = sys.argv[3]
 ocr_options = sys.argv[4]
 readtext_options = sys.argv[5]
-scale_factor = 4
-upscaled = cv2.resize(img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
-blur = cv2.blur(upscaled, (2, 2))
-bw = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
 
 # Parse options from JSON strings, default to empty dict if None
 ocr_options = json.loads(ocr_options) if ocr_options != 'null' else {}
@@ -30,7 +25,7 @@ def convert_detection(detection):
     }
 
 reader = easyocr.Reader(lang_list=lang_list, **ocr_options)
-text_detections = reader.readtext(bw, **readtext_options)
+text_detections = reader.readtext(img, **readtext_options)
 
 serializable_detections = [convert_detection(d) for d in text_detections]
 
