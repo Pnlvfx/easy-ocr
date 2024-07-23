@@ -7,22 +7,30 @@ import path from 'node:path';
 const script = path.join(import.meta.dirname, '../../python/easy-ocr.py');
 
 interface OcrOptions {
-  lang?: string;
   gpu?: boolean;
+  download_enabled?: boolean;
+  verbose?: boolean;
+  cudnn_benchmark?: boolean;
+  pythonPath?: string;
 }
 
 interface ReadTextOptions {
-  allowlist: string;
-  text_threshold: number;
+  allowlist?: string;
+  blocklist?: string;
+  threshold?: number;
+  text_threshold?: number;
 }
 
 const easyOcr = {
-  reader: (pythonPath: string, ocrOptions?: OcrOptions) => {
+  /** Lang list will become string | string[] */
+  reader: (lang_list: string, ocrOptions: OcrOptions = {}) => {
     return {
-      readText: (image: string, options?: ReadTextOptions) => {
+      readText: (image: string, options: ReadTextOptions = {}) => {
         return new Promise<TextDetection[]>((resolve, reject) => {
+          const python = ocrOptions.pythonPath ?? 'python3';
+          delete ocrOptions.pythonPath;
           const output = temporaryFile({ extension: 'json' });
-          const ocr = spawn(pythonPath, [script, image, output, JSON.stringify(ocrOptions), JSON.stringify(options)]);
+          const ocr = spawn(python, [script, image, lang_list, output, JSON.stringify(ocrOptions), JSON.stringify(options)]);
 
           ocr.on('error', reject);
 
@@ -30,6 +38,13 @@ const easyOcr = {
 
           ocr.stderr.on('data', (chunk: Buffer) => {
             error += chunk.toString();
+          });
+
+          ocr.stdout.on('data', (chunk: Buffer) => {
+            if (ocrOptions.verbose) {
+              // eslint-disable-next-line no-console
+              console.log(chunk.toString());
+            }
           });
 
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
