@@ -13,7 +13,7 @@ readtext_options = sys.argv[5]
 scale_factor = 4
 upscaled = cv2.resize(img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
 blur = cv2.blur(upscaled, (2, 2))
-bw = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
+bw = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
 
 # Parse options from JSON strings, default to empty dict if None
 ocr_options = json.loads(ocr_options) if ocr_options != 'null' else {}
